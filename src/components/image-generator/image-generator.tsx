@@ -177,7 +177,10 @@ export function ImageGenerator({ userId, balance, dailyUsed, dailyLimit, activeJ
   }
 
   return (
-    <div className="mx-auto grid w-full max-w-2xl grid-cols-1 gap-6 xl:max-w-none xl:grid-cols-12 xl:items-start">
+    <div className="mx-auto w-full max-w-2xl space-y-6 xl:max-w-none">
+      {/* The composer + preview grid is its own block: the xl:sticky preview is confined to it, so it
+          can no longer slide over the "Recent images" strip below while the page scrolls. */}
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12 xl:items-start">
       {/* grid-cols-1 (= minmax(0, 1fr)) + min-w-0 items: long unbreakable text can never widen the page.
           Two columns only from xl (1280px): at lg the sidebar leaves the composer too narrow, so
           tablet / small-laptop widths use a centred single column (max 672px). */}
@@ -280,7 +283,9 @@ export function ImageGenerator({ userId, balance, dailyUsed, dailyLimit, activeJ
         )}
       </div>
 
-      <div className="min-w-0 xl:col-span-12">
+      </div>
+
+      <div className="min-w-0">
         <RecentImages
           items={recentImages}
           selectedJobId={preview.kind === "history" ? preview.item.job.id : null}

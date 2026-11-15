@@ -37,7 +37,8 @@ export function RecentVideos({ items, selectedJobId, onSelectItem }: RecentVideo
         </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+      {/* One horizontally scrollable row (no wrapping), matching "Recent images". */}
+      <div className="-mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-1 pb-3 [scrollbar-width:thin]">
         {items.map((item) => {
           const isSelected = selectedJobId === item.job.id;
           const hasThumbnail = Boolean(item.asset?.thumbnailUrl);
@@ -55,7 +56,7 @@ export function RecentVideos({ items, selectedJobId, onSelectItem }: RecentVideo
                 }
               }}
               className={cn(
-                "group relative flex flex-col overflow-hidden rounded-2xl border bg-black/40 text-left transition-all duration-300 cursor-pointer",
+                "group relative flex w-56 shrink-0 snap-start flex-col overflow-hidden rounded-2xl border bg-black/40 text-left transition-all duration-300 cursor-pointer sm:w-60",
                 "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet",
                 isSelected
                   ? "border-violet ring-2 ring-violet/40 shadow-[0_0_25px_rgba(139,92,246,0.4)]"

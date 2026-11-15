@@ -133,7 +133,11 @@ try {
     ok(imgs.every((t) => /src="\/api\/assets\/asset-\d+"/.test(t)) && !html.includes("supabase") && !html.includes("users/"), "only same-origin /api/assets/ URLs; no storage URLs or keys");
     ok((html.match(/aria-pressed="true"/g) ?? []).length === 1 && html.includes(`aria-label="Viewing image: ${EIGHT[1].job.prompt}"`), "exactly one selected (aria-pressed) with a 'Viewing' label");
     ok(html.includes("Viewing</span>"), "visible selected badge");
-    ok(html.includes("grid-cols-2") && html.includes("sm:grid-cols-3") && html.includes("lg:grid-cols-4"), "2 / 3 / 4 columns (mobile / tablet / desktop)");
+    ok(
+      /<ul class="[^"]*\bflex\b[^"]*\boverflow-x-auto\b[^"]*"/.test(html) && !/<ul class="[^"]*\bflex-wrap\b/.test(html) && !html.includes("grid-cols-"),
+      "one horizontally scrollable row (no wrapping, no column grid)",
+    );
+    ok((html.match(/<li class="[^"]*\bshrink-0\b[^"]*\bsnap-start\b/g) ?? []).length === 8, "fixed-width, non-shrinking, snap-aligned cards");
     ok(html.includes("Detailed") && html.includes("Fast") && html.includes('<time dateTime="2026-11-02T10:00:00.000Z">Nov 2, 2026</time>'), "quality and date (UTC, deterministic for hydration)");
     ok(html.includes('href="/history?type=image"') && html.includes("View all history"), "link to the image history");
     ok(html.includes("focus-visible:outline-2") && html.includes("motion-reduce:transition-none"), "visible focus ring; hover zoom disabled for reduced motion");

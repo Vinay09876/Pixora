@@ -43,9 +43,11 @@ export function RecentImages({
       {viewable.length === 0 ? (
         <EmptyGallery />
       ) : (
-        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        // One horizontally scrollable row (no wrapping): fixed-width cards, scroll-snap, and the
+        // native scrollbar. Each card is a button, so keyboard focus scrolls it into view.
+        <ul className="-mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-1 pb-3 [scrollbar-width:thin]">
           {viewable.map((item) => (
-            <li key={item.job.id} className="min-w-0">
+            <li key={item.job.id} className="w-40 shrink-0 snap-start sm:w-44 lg:w-48">
               <Thumbnail item={item} selected={item.job.id === selectedJobId} onSelect={() => onSelect(item.job.id)} />
             </li>
           ))}
